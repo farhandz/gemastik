@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+	font-family: 'Poppins', sans-serif;
+}
+
+.mirror{
+/*  transform: scale(-1, -1);*/
+transform: rotateY(180deg)
+}
+.unmirror{
+/*  transform: scale(-1, -1);*/
+transform: none;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dfdfdf;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #efefef;
+  border-radius: 0px;
+}
