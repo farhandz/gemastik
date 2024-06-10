@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import { runModelUtil } from "../pages/utilities";
 import { Tensor } from "onnxruntime-web";
+import Footer from "./Footer";
 
 const WebcamComponent = (props) => {
   const [inferenceTime, setInferenceTime] = useState(0);
@@ -42,14 +43,12 @@ const WebcamComponent = (props) => {
     // console.log(data)
     let outputTensor;
     let inferenceTime;
-    [outputTensor, inferenceTime] = await runModelUtil(
-      props.session,
-      data
-    );
-    
-    // console.log(outputTensor)
-    
-
+    if(props.session && data) {
+      [outputTensor, inferenceTime] = await runModelUtil(
+        props.session,
+        data
+      );
+    }
 
     props.postprocess(outputTensor, props.inferenceTime, ctx);
     setInferenceTime(inferenceTime);
@@ -89,6 +88,7 @@ const WebcamComponent = (props) => {
   const reset = async () => {
     var context = videoCanvasRef.current.getContext("2d");
     context.clearRect(0, 0, originalSize.current[0], originalSize.current[1]);
+    props.resetText()
     liveDetection.current = false;
   };
 
@@ -153,43 +153,35 @@ const WebcamComponent = (props) => {
       }}
     ></canvas>
   </div>
-  <div className="flex flex-col justify-center items-center mt-5">
-  <div className="flex justify-between bg-violet-400 w-full text-white mt-2">
-                {/* <div>
-                  {"Model Inference Time: " + inferenceTime.toFixed() + "ms"}
-                </div> */}
-                <div>
-                  <div>
-                      Total FPS
-                  </div>
-                  <div>
-                      {(1000 / inferenceTime).toFixed(2) + " fps"}
-                  </div>
-                </div>
-                <div>
-                  <div>
-                      Total Time
-                  </div>
-                  <div>
-                      {totalTime.toFixed() + "ms"}
-                  </div>
-                </div>
-                <div>
-                  <div>
-                      Overhead Fps
-                  </div>
-                  <div>
-                  {(1000 * (1 / totalTime - 1 / inferenceTime)).toFixed(2) + " fps"}
-                  </div>
-                </div>
-                
-                {/* <div>
-                    {"Overhead Time: +" + (totalTime - inferenceTime).toFixed(2) + "ms"}
-                </div> */}
-            </div>
-    
+  <div className="flex flex-col justify-center items-center">
 
-      <div className="flex mt-10 flex-wrap w-80 h-32 overflow-y-scroll border">
+    <div className="flex px-[1em] py-[1em] justify-between bg-violet-400 w-full text-white">
+            <div>
+              <div>
+                  Total FPS
+              </div>
+              <div>
+                  {(1000 / inferenceTime).toFixed(2) + " fps"}
+              </div>
+            </div>
+            <div>
+              <div>
+                  Total Time
+              </div>
+              <div>
+                  {totalTime.toFixed() + "ms"}
+              </div>
+            </div>
+            <div>
+              <div>
+                  Overhead Fps
+              </div>
+              <div>
+              {(1000 * (1 / totalTime - 1 / inferenceTime)).toFixed(2) + " fps"}
+              </div>
+            </div>
+      </div>
+      <div className="flex mt-[1em]  flex-wrap w-80 h-32 overflow-y-scroll border">
         {props.texts}
       </div>
       <div className="flex gap-1 flex-wrap justify-center items-center m-5">
@@ -213,7 +205,7 @@ const WebcamComponent = (props) => {
             }
           }}
           className={`p-2 border-dashed border-2 rounded-xl hover:translate-y-1 ${
-            liveDetection.current ? "bg-white text-black" : ""
+            liveDetection.current ? "bg-violet-500 text-white" : ""
           }`}
         >
           Live Detection
@@ -260,6 +252,7 @@ const WebcamComponent = (props) => {
     </div> */}
   </div>
 </div>
+    <Footer />
 
     </>
    

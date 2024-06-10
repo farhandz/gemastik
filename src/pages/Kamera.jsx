@@ -19,12 +19,17 @@ const Kamera = () => {
   const [modelName, setModelName] = useState(RES_TO_MODEL[0][1]);
   const [session, setSession] = useState(null);
   const [texts, setText] = useState([])
+  const [loading , setLoading] = useState(true)
 
   useEffect(() => {
     const getSession = async () => {
       const session = await createModelCpu(
         onnx
-      );
+      ).then((data) => {
+        return data;
+      }).finally(() => {
+        setLoading(false)
+      });
       // console.log(session)
       setSession(session);
     };
@@ -267,18 +272,28 @@ function draw_boxes(ctx,boxes) {
       ctx.fillStyle = "#000000";
       ctx.fillText(label, x1, y1+18);
   });
-  setText(datText)
+  setText(prevTexts => [...prevTexts, ...datText]);
 }
 
 
+
+if (loading) {
+  return <div className='bg-violet-500 w-screen 
+  h-screen flex justify-center items-center
+   text-white'>Loading...</div>;
+}
   return (
     <>
+    
     <WebcamComponent
   texts={texts.join(',')}
   preprocess={preprocess}
   postprocess={postprocess}
   resizeCanvasCtx={resizeCanvasCtx}
   session={session}
+  resetText={()=> {
+    setText([])
+  }}
   changeModelResolution={changeModelResolution}
   modelName={modelName}
 />
