@@ -24,30 +24,37 @@ function App() {
 
   let circleMenu=[{
     title:"Kalimat ke Isyarat",
+    image: "/assets/translate.png",
     icon:<IconLanguage/>,
     href:"/terjemah"
   },{
     title:"Kamus Isyarat",
+    image: "/assets/dictionary.png",
     icon:<IconAbc/>,
     href:"/belajar/huruf"
   },{
     title:"Kuis Isyarat",
+    image: "/assets/quiz.png",
     icon:<IconDeviceGamepad2/>,
     href:"/kuis"
   },{
     title:"Edukasi",
     icon:<IconNotebook/>,
+    image: "/assets/education.png",
     href:"/belajar"
   },
   {
     title:"Isyarat Ke Kamera",
     icon:<IconCamera/>,
-    href:"/belajar"
+    href:"/kamera",
+    image: "/assets/kamera.png",
+    
   },
   {
     title:"Bantu Mereka",
     icon:<IconHeartHandshake />,
-    href:"/belajar"
+    href:"/help",
+    image: "/assets/help.png",
   },
   
 ]
@@ -90,17 +97,33 @@ function App() {
         
         <div className="bg-white p-5 flex flex-col gap-5 rounded-t-2xl">
 
-        <div className="grid bg-violet-400 p-7 grid-cols-3 gap-6 overflow-x-auto sticky bottom-0 rounded-lg overflow-hidden shadow-lg">
-          {circleMenu.map(menu => (
-            <a key={menu.icon} className="text-center flex flex-col items-center gap-2" href={menu.href}>
-              <div className="w-[4em] h-[4em] p-2 rounded-full text-white bg-violet-600 text-blue-500 hover:shadow-lg flex justify-center items-center">
-                {menu.icon}
-              </div>
-              <p className="text-xs text-white">{menu.title}</p>
-            </a>
-          ))}
-        </div>
-        <div className="flex flex-col gap-3">
+      <div className="grid bg-violet-400 p-7 grid-cols-3 gap-6 overflow-x-auto sticky bottom-0 rounded-lg overflow-hidden shadow-lg">
+        {circleMenu.map((menu, index) => (
+          <a key={index} className="text-center flex flex-col bg-white border border-gray-300 shadow-lg rounded-lg h-40 p-5 hover:shadow-xl items-center gap-2" href={menu.href}>
+            <div className="w-[5em] h-[5em]  object-fill text-white text-blue-500 flex justify-center items-center">
+              <img src={menu.image} className="w-full h-full object-cover rounded-full" />
+            </div>
+            <p className="text-xs text-gray-800">{menu.title}</p>
+          </a>
+        ))}
+      </div>
+
+      <div className="flex gap-2 w-full overflow-auto">
+              {video.map(vid=>(
+                <div className="w-full rounded-lg">
+                {MarkupFrame(vid.link)}
+                <div className="mt-3 flex flex-col justify-between align-middle">
+                  <a href={vid.link} className="font-medium">{vid.title}</a>
+                  <div className="text-xs mt-2 flex items-center gap-2">
+                    <IconBrandYoutubeFilled className="w-4 text-red-500"/>
+                    <a href={vid.link} className="hover:text-red-500">{vid.author}</a>
+                  </div>
+                </div>
+                </div>
+              ))}
+            </div>
+
+        {/* <div className="flex flex-col gap-3">
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-lg font-medium">Belajar Lewat Video</h1>
               <a className="bg-orange-300 pr-3 pl-3 p-2 rounded-full text-xs font-medium active:bg-orange-400" href="/belajar">Semua</a>
@@ -134,11 +157,11 @@ function App() {
                   </div>
                 </div>
             </div>
-          </div>
+          </div> */}
 
      
 
-          <div className="flex flex-col gap-3">
+          {/* <div className="flex flex-col gap-3">
             <div className="flex gap-2">
                 <div className="flex flex-row justify-between w-full rounded-lg bg-orange-200">
                   <div className="p-5">
@@ -152,9 +175,9 @@ function App() {
                   </div>
                 </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className="flex flex-col gap-3">
+          {/* <div className="flex flex-col gap-3">
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-lg font-medium">Artikel</h1>
               <a className="bg-orange-300 pr-3 pl-3 p-2 rounded-full text-xs font-medium active:bg-orange-400" href="/belajar">Semua</a>
@@ -178,7 +201,7 @@ function App() {
               ))}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <Footer/>

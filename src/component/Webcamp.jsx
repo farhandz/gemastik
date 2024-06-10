@@ -39,7 +39,7 @@ const WebcamComponent = (props) => {
 
   const runModel = async (ctx) => {
     const data = props.preprocess(ctx);
-    console.log(data)
+    // console.log(data)
     let outputTensor;
     let inferenceTime;
     [outputTensor, inferenceTime] = await runModelUtil(
@@ -47,7 +47,7 @@ const WebcamComponent = (props) => {
       data
     );
     
-    console.log(outputTensor)
+    // console.log(outputTensor)
     
 
 
@@ -119,117 +119,150 @@ const WebcamComponent = (props) => {
   }
 
   return (
-    <div className="flex flex-row flex-wrap justify-evenly align-center w-full">
-      <div
-        id="webcam-container"
-        className="flex items-center justify-center webcam-container"
-      >
-        <Webcam
-          mirrored={facingMode === "user"}
-          audio={false}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          imageSmoothing={true}
-          videoConstraints={{
-            facingMode: facingMode,
-          }}
-          onLoadedMetadata={() => {
-            setWebcamCanvasOverlaySize();
-            originalSize.current = [
-              webcamRef.current.video.offsetWidth,
-              webcamRef.current.video.offsetHeight,
-            ];
-          }}
-          forceScreenshotSourceSize={true}
-        />
-        <canvas
-          id="cv1"
-          ref={videoCanvasRef}
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            backgroundColor: "rgba(0,0,0,0)",
-          }}
-        ></canvas>
+    <>
+       <div className="flex flex-col items-center w-full">
+  <div
+    id="webcam-container"
+    className="flex items-center justify-center webcam-container relative"
+  >
+    <Webcam
+      mirrored={facingMode === "user"}
+      audio={false}
+      ref={webcamRef}
+      screenshotFormat="image/jpeg"
+      imageSmoothing={true}
+      videoConstraints={{
+        facingMode: facingMode,
+      }}
+      onLoadedMetadata={() => {
+        setWebcamCanvasOverlaySize();
+        originalSize.current = [
+          webcamRef.current.video.offsetWidth,
+          webcamRef.current.video.offsetHeight,
+        ];
+      }}
+      forceScreenshotSourceSize={true}
+    />
+    <canvas
+      id="cv1"
+      ref={videoCanvasRef}
+      style={{
+        position: "absolute",
+        zIndex: 10,
+        backgroundColor: "rgba(0,0,0,0)",
+      }}
+    ></canvas>
+  </div>
+  <div className="flex flex-col justify-center items-center mt-5">
+  <div className="flex justify-between bg-violet-400 w-full text-white mt-2">
+                {/* <div>
+                  {"Model Inference Time: " + inferenceTime.toFixed() + "ms"}
+                </div> */}
+                <div>
+                  <div>
+                      Total FPS
+                  </div>
+                  <div>
+                      {(1000 / inferenceTime).toFixed(2) + " fps"}
+                  </div>
+                </div>
+                <div>
+                  <div>
+                      Total Time
+                  </div>
+                  <div>
+                      {totalTime.toFixed() + "ms"}
+                  </div>
+                </div>
+                <div>
+                  <div>
+                      Overhead Fps
+                  </div>
+                  <div>
+                  {(1000 * (1 / totalTime - 1 / inferenceTime)).toFixed(2) + " fps"}
+                  </div>
+                </div>
+                
+                {/* <div>
+                    {"Overhead Time: +" + (totalTime - inferenceTime).toFixed(2) + "ms"}
+                </div> */}
+            </div>
+    
+
+      <div className="flex mt-10 flex-wrap w-80 h-32 overflow-y-scroll border">
+        {props.texts}
       </div>
-      <div className="flex flex-col justify-center items-center">
-        <div className="flex gap-1 flex-row flex-wrap justify-center items-center m-5">
-          <div className="flex gap-1 justify-center items-center items-stretch">
-            <button
-              onClick={async () => {
-                const startTime = Date.now();
-                await processImage();
-                setTotalTime(Date.now() - startTime);
-              }}
-              className="p-2 border-dashed border-2 rounded-xl hover:translate-y-1 "
-            >
-              Capture Photo
-            </button>
-            <button
-              onClick={async () => {
-                if (liveDetection.current) {
-                  liveDetection.current = false;
-                } else {
-                  runLiveDetection();
-                }
-              }}
-              className={`p-2 border-dashed border-2 rounded-xl hover:translate-y-1 ${
-                liveDetection.current ? "bg-white text-black" : ""
-              }`}
-            >
-              Live Detection
-            </button>
-          </div>
-          <div className="flex gap-1 justify-center items-center items-stretch">
-            <button
-              onClick={() => {
-                reset();
-                setFacingMode(facingMode === "user" ? "environment" : "user");
-              }}
-              className="p-2 border-dashed border-2 rounded-xl hover:translate-y-1 "
-            >
-              Switch Camera
-            </button>
-            <button
-              onClick={() => {
-                reset();
-                props.changeModelResolution();
-              }}
-              className="p-2 border-dashed border-2 rounded-xl hover:translate-y-1 "
-            >
-              Change Model
-            </button>
-            <button
-              onClick={reset}
-              className="p-2 border-dashed border-2 rounded-xl hover:translate-y-1 "
-            >
-              Reset
-            </button>
-          </div>
-        </div>
-        <div>Using {props.modelName}</div>
-        <div className="flex gap-3 flex-row flex-wrap justify-between items-center px-5 w-full">
-          <div>
-            {"Model Inference Time: " + inferenceTime.toFixed() + "ms"}
-            <br />
-            {"Total Time: " + totalTime.toFixed() + "ms"}
-            <br />
-            {"Overhead Time: +" + (totalTime - inferenceTime).toFixed(2) + "ms"}
-          </div>
-          <div>
-            <div>
-              {"Model FPS: " + (1000 / inferenceTime).toFixed(2) + "fps"}
-            </div>
-            <div>{"Total FPS: " + (1000 / totalTime).toFixed(2) + "fps"}</div>
-            <div>
-              {"Overhead FPS: " +
-                (1000 * (1 / totalTime - 1 / inferenceTime)).toFixed(2) +
-                "fps"}
-            </div>
-          </div>
-        </div>
+      <div className="flex gap-1 flex-wrap justify-center items-center m-5">
+      <div className="flex gap-1 justify-center items-center">
+        <button
+          onClick={async () => {
+            const startTime = Date.now();
+            await processImage();
+            setTotalTime(Date.now() - startTime);
+          }}
+          className="p-2 border-dashed border-2 rounded-xl hover:translate-y-1"
+        >
+          Capture Photo
+        </button>
+        <button
+          onClick={async () => {
+            if (liveDetection.current) {
+              liveDetection.current = false;
+            } else {
+              runLiveDetection();
+            }
+          }}
+          className={`p-2 border-dashed border-2 rounded-xl hover:translate-y-1 ${
+            liveDetection.current ? "bg-white text-black" : ""
+          }`}
+        >
+          Live Detection
+        </button>
+      </div>
+      <div className="flex gap-1 justify-center items-center">
+        <button
+          onClick={() => {
+            reset();
+            setFacingMode(facingMode === "user" ? "environment" : "user");
+          }}
+          className="p-2 border-dashed border-2 rounded-xl hover:translate-y-1"
+        >
+          Switch Camera
+        </button>
+    
+        <button
+          onClick={reset}
+          className="p-2 border-dashed border-2 rounded-xl hover:translate-y-1"
+        >
+          Reset
+        </button>
       </div>
     </div>
+    
+    {/* <div>Using {props.modelName}</div>
+    <div className="flex gap-3 flex-wrap justify-between items-center px-5 w-full">
+      <div>
+        {"Model Inference Time: " + inferenceTime.toFixed() + "ms"}
+        <br />
+        {"Total Time: " + totalTime.toFixed() + "ms"}
+        <br />
+        {"Overhead Time: +" + (totalTime - inferenceTime).toFixed(2) + "ms"}
+      </div>
+      <div>
+        <div>{"Model FPS: " + (1000 / inferenceTime).toFixed(2) + "fps"}</div>
+        <div>{"Total FPS: " + (1000 / totalTime).toFixed(2) + "fps"}</div>
+        <div>
+          {"Overhead FPS: " +
+            (1000 * (1 / totalTime - 1 / inferenceTime)).toFixed(2) +
+            "fps"}
+        </div>
+      </div>
+    </div> */}
+  </div>
+</div>
+
+    </>
+   
   );
 };
 

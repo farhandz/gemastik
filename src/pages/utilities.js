@@ -52,7 +52,6 @@ const labelMap = {
   export async function runModelUtil(model, preprocessedData) {
     try {
       const feeds = {};
-      console.log(preprocessedData)
       feeds[model.inputNames[0]] = preprocessedData;
       const start = Date.now();
       const outputData = await model.run(feeds);

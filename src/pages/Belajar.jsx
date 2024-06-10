@@ -20,10 +20,10 @@ return (
 	<>
 		<Navbar title="Belajar"/>
     	<div className="flex flex-col items-center justify-center">
-      		<div className="bg-blue-500 w-full lg:w-4/12 shadow-md">
+      		<div className="bg-violet-500 w-full lg:w-4/12 shadow-md">
         		<div className="p-6 text-white">
         		  <h1 className="text-2xl font-black">Bahasa Isyarat</h1>
-        		  <p className="text-xl">Belajar bahasa isyarat dengan asyik!</p>
+        		  <p className="text-xl">Gerakan tangan, suara jiwa</p>
         		</div>
         		<div className="bg-white p-5 flex flex-col gap-5 rounded-t-2xl">
         			<div className="flex flex-col gap-3">

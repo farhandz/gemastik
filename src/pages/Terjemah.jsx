@@ -108,7 +108,7 @@ return (
 	<>
 		<Navbar title="Kalimat ke Bahasa Isyarat"/>
     	<div className="flex flex-col items-center justify-center">
-    		<div className="flex flex-col gap-3 bg-white p-5 shadow-xl">
+      <div className="flex flex-col gap-3 bg-white p-5 shadow-xl">
     		<h1 className="font-bold text-xl">Kalimat ke Bahasa Isyarat</h1>
 				<div className="w-80 bg-blue-200 rounded p-3">
     				<p>Saat ini hanya bisa menerjemahkan huruf atau abjad</p>

@@ -18,13 +18,14 @@ const Kamera = () => {
   const [modelResolution, setModelResolution] = useState(RES_TO_MODEL[0][0]);
   const [modelName, setModelName] = useState(RES_TO_MODEL[0][1]);
   const [session, setSession] = useState(null);
+  const [texts, setText] = useState([])
 
   useEffect(() => {
     const getSession = async () => {
       const session = await createModelCpu(
         onnx
       );
-      console.log(session)
+      // console.log(session)
       setSession(session);
     };
     getSession();
@@ -102,7 +103,7 @@ const Kamera = () => {
       height,
     ]);
 
-    console.log(dataProcessedTensor)
+    // console.log(dataProcessedTensor)
 
     ops.assign(
       dataProcessedTensor.pick(0, 0, null, null),
@@ -145,7 +146,7 @@ const Kamera = () => {
 
     
     const output = tensor.data;
-    console.log(tensor.data)
+    // console.log(tensor.data)
     let boxes = [];
     for (let index=0;index<13125;index++) {
         const [class_id,prob] = [...Array(36).keys()]
@@ -255,7 +256,10 @@ function draw_boxes(ctx,boxes) {
   ctx.strokeStyle = "#00FF00";
   ctx.lineWidth = 3;
   ctx.font = "18px serif";
+  const datText = [];
   boxes.forEach(([x1,y1,x2,y2,label]) => {
+      datText.push(label)
+     
       ctx.strokeRect(x1,y1,x2-x1,y2-y1);
       ctx.fillStyle = "#00ff00";
       const width = ctx.measureText(label).width;
@@ -263,13 +267,14 @@ function draw_boxes(ctx,boxes) {
       ctx.fillStyle = "#000000";
       ctx.fillText(label, x1, y1+18);
   });
+  setText(datText)
 }
 
 
   return (
     <>
     <WebcamComponent
-  
+  texts={texts.join(',')}
   preprocess={preprocess}
   postprocess={postprocess}
   resizeCanvasCtx={resizeCanvasCtx}
