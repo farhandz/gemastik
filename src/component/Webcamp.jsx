@@ -181,21 +181,11 @@ const WebcamComponent = (props) => {
               </div>
             </div>
       </div>
-      <div className="flex mt-[1em]  flex-wrap w-80 h-32 overflow-y-scroll border">
+      <div className="flex mt-[1em]  flex-wrap w-80 h-20 overflow-y-scroll border">
         {props.texts}
       </div>
       <div className="flex gap-1 flex-wrap justify-center items-center m-5">
       <div className="flex gap-1 justify-center items-center">
-        <button
-          onClick={async () => {
-            const startTime = Date.now();
-            await processImage();
-            setTotalTime(Date.now() - startTime);
-          }}
-          className="p-2 border-dashed border-2 rounded-xl hover:translate-y-1"
-        >
-          Capture Photo
-        </button>
         <button
           onClick={async () => {
             if (liveDetection.current) {
