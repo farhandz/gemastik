@@ -4,6 +4,7 @@ import { Tensor } from 'onnxruntime-web';
 import ops from 'ndarray-ops';
 // import ObjectDetectionCamera from '../ObjectDetectionCamera';
 import { round } from 'lodash';
+import { IconLoader } from '@tabler/icons-react';
 import { createModelCpu } from './utilities';
 import { yoloClasses } from './utilities';
 // import { runModelUtils } from '../../utils';
@@ -280,7 +281,7 @@ function draw_boxes(ctx,boxes) {
 if (loading) {
   return <div className='bg-violet-500 w-screen 
   h-screen flex justify-center items-center
-   text-white'>Loading...</div>;
+   text-white'>Loading...  <IconLoader /> </div>;
 }
   return (
     <>

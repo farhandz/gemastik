@@ -242,8 +242,6 @@ const WebcamComponent = (props) => {
     </div> */}
   </div>
 </div>
-    <Footer />
-
     </>
    
   );
