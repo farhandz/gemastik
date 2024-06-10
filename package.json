@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
+    "dev": "node ort-wasm-handler.cjs && vite --host",
+    "build": "node ort-wasm-handler.cjs && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "tw": "npx tailwindcss -i ./src/index.css -o ./src/main.css --watch"
@@ -14,11 +14,19 @@
     "@ffmpeg/ffmpeg": "^0.12.10",
     "@ffmpeg/util": "^0.12.1",
     "@tabler/icons-react": "^2.45.0",
+    "@tensorflow/tfjs": "^2.7.0",
     "axios": "^1.6.3",
+    "lodash": "^4.17.21",
     "marked": "^11.2.0",
+    "ndarray": "^1.0.19",
+    "ndarray-ops": "^1.2.2",
+    "onnxjs": "^0.1.8",
+    "onnxruntime-web": "^1.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-whammy": "^1.0.4"
+    "react-webcam": "^7.2.0",
+    "react-whammy": "^1.0.4",
+    "web-vitals": "^4.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -32,6 +40,8 @@
     "postcss": "^8.4.33",
     "react-router-dom": "^6.21.1",
     "tailwindcss": "^3.4.0",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vite-plugin-static-copy": "^1.0.5",
+    "vite-raw-plugin": "^1.0.2"
   }
 }

@@ -10,6 +10,7 @@ import Artikel from "./pages/Artikel.jsx";
 import TentangSIBI from "./pages/TentangSIBI.jsx";
 import TentangBISINDO from "./pages/TentangBISINDO.jsx";
 import './index.css'
+import Kamera from './pages/Kamera.jsx';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/artikel/:id" element={<Artikel/>}/>
         <Route path="terjemah" element={<Terjemah/>}/>
         <Route path="kuis" element={<Game/>}/>
+        <Route path="kamera" element={<Kamera/>}/>
       </Routes>
     </BrowserRouter>
   );

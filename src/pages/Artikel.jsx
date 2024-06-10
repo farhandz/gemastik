@@ -6,6 +6,8 @@ import Navbar from "../component/Navbar.jsx"
 import kontenJSON from "../assets/konten.json"
 import '../artikel.css'
 import signLanguangeGroup from "../assets/hands-with-sign-language-freepik.jpg"
+
+
 export default function(props){
 	let { id } = useParams()
 	let filteredKonten = kontenJSON.filter(post=>id==post.id)[0]
